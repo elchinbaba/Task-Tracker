@@ -33,6 +33,7 @@ class Div {
         this.divElement.style.height = "40px";
         this.divElement.style.border = "2px solid #C4C4C4";
         this.divElement.style.borderRadius = "5px";
+        this.divElement.style.marginBottom = "3px";
     }
 
     dragDiv() {
@@ -40,13 +41,27 @@ class Div {
         this.divElement.addEventListener('drop', event => {
             event.preventDefault();
             var data = event.dataTransfer.getData("text");
-            document.querySelector('.list').insertBefore(document.getElementById(data), event.target);
+            if (event.target.parentElement.classList[0] == "added")
+                document.querySelector('.list').insertBefore(document.getElementById(data), event.target.parentElement);
+            else 
+                document.querySelector('.list').insertBefore(document.getElementById(data), event.target);
         });
+        
         this.divElement.addEventListener('dragover', event => {
             event.preventDefault();
         });
         this.divElement.addEventListener('dragstart', event => {
             event.dataTransfer.setData("text", event.target.id);
+        });
+    }
+
+    static drag() {
+        document.querySelector('.container').addEventListener('drop', event => {
+            var data = event.dataTransfer.getData("text");
+            if (event.target == document.querySelector('.container')) document.getElementById(data).remove();
+        });
+        document.querySelector('.container').addEventListener('dragover', event => {
+            event.preventDefault();
         });
     }
 }
@@ -65,8 +80,10 @@ class P {
 
     styleP() {
         this.pElement.style.width = "282px";
+        this.pElement.style.height = "40px";
         this.pElement.style.margin = "8px 0";
         this.pElement.style.border = "none";
+        this.pElement.style.paddingLeft = "3px";
     }
 }
 
@@ -169,3 +186,5 @@ document.querySelector('.sort').addEventListener('mouseout', event => {
 document.querySelector('.del-inp').addEventListener('click', event => {
     event.target.parentElement.querySelector('input').value = "";
 })
+
+Div.drag();

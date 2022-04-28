@@ -44,12 +44,16 @@ h1 {
     height: 40px;
     border: 2px solid #C4C4C4;
     border-radius: 5px;
+    margin-bottom: 3px;
 }
 
 input {
     width: 282px;
     height: 37px;
     border: none;
+    padding-left: 3px;
+    outline: none;
+    max-width: 250px;
 }
 
 .delete {
