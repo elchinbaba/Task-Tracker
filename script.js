@@ -20,10 +20,12 @@ class Div {
         this.dragDiv();
         
         this.pElement = new P(text).pElement;
-        this.imgElement = new Img().imgElement;
+        this.delImgElement = new deleteImg().imgElement;
+        this.editImgElement = new editImg().imgElement;
 
         this.divElement.append(this.pElement);
-        this.divElement.append(this.imgElement);
+        this.divElement.append(this.delImgElement);
+        this.divElement.append(this.editImgElement);
     }
 
     styleDiv() {
@@ -81,7 +83,7 @@ class P {
     styleP() {
         this.pElement.style.width = "282px";
         this.pElement.style.height = "40px";
-        this.pElement.style.margin = "8px 0";
+        this.pElement.style.marginTop = "8px";
         this.pElement.style.border = "none";
         this.pElement.style.paddingLeft = "3px";
     }
@@ -94,12 +96,6 @@ class Img {
 
     createImg() {
         this.imgElement = document.createElement('img');
-        this.imgElement.classList += "delete";
-        this.imgElement.addEventListener('click', event => {
-            event.target.parentElement.remove();
-        });
-        this.imgElement.src = "images/delete.png";
-        this.imgElement.alt = "delete";
 
         this.styleImg();
     }
@@ -107,7 +103,62 @@ class Img {
     styleImg() {
         this.imgElement.style.position = "absolute";
         this.imgElement.style.top = "8px";
+    }
+}
+
+class deleteImg extends Img {
+    constructor() {
+        super();
+    }
+
+    createImg() {
+        super.createImg();
+        
+        this.imgElement.classList += "delete";
+        this.imgElement.addEventListener('click', event => {
+            event.target.parentElement.remove();
+        });
+        this.imgElement.src = "images/delete.png";
+        this.imgElement.alt = "delete";
+    }
+
+    styleImg() {
+        super.styleImg();
         this.imgElement.style.right = "8px";
+    }
+}
+
+class editImg extends Img {
+    constructor() {
+        super();
+    }
+
+    createImg() {
+        this.imgElement = document.createElement('img');
+        this.imgElement.classList += "edit";
+        this.imgElement.addEventListener('click', event => {
+            const pElement = event.target.parentElement.querySelector('p');
+            pElement.innerText = "";
+            const input = document.createElement('input');
+            pElement.style.marginTop = "0";
+            pElement.append(input);
+            input.addEventListener('keypress', event => {
+                if (event.key == "Enter") {
+                    pElement.innerText = input.value;
+                    pElement.style.marginTop = "8px";
+                    input.remove();
+                }
+            })
+        });
+        this.imgElement.src = "images/edit.png";
+        this.imgElement.alt = "edit";
+
+        this.styleImg();
+    }
+
+    styleImg() {
+        super.styleImg();
+        this.imgElement.style.right = "30px";
     }
 }
 
