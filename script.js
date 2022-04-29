@@ -158,7 +158,7 @@ class editImg extends Img {
 
     styleImg() {
         super.styleImg();
-        this.imgElement.style.right = "30px";
+        this.imgElement.style.right = "32px";
     }
 }
 
